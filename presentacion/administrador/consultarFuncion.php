@@ -22,6 +22,7 @@ include 'presentacion/menuAdministrador.php';
 								<th scope="col">Horarios</th>
 								<th scope="col">Cantidad Sillas</th>
 								<th scope="col">Precio</th>
+								<th scope="col">Estado</th>
 								<th scope="col">Servicios</th>
 								
 							</tr>
@@ -37,8 +38,10 @@ include 'presentacion/menuAdministrador.php';
         echo "<td>" . $f->getHorario()->getHoraInicio() . "-".$f->getHorario()->getHoraFin()."</td>";
 		echo "<td>" . $f->getSillas() . "</td>";
 		echo "<td>" . $f->getPrecio() . "</td>";
-        echo "<td>" . "<a class='fas fa-user-edit' href='index.php?pid=" . base64_encode("presentacion/administrador/editarFuncion.php") . "&idFuncion=" . $f->getId() . "' data-toggle='tooltip' data-placement='left' title='Editar Funcion'> </a>
-              </td>";
+		echo "<td><div id='estado".$f->getId()."'>".($f -> getEstado()==0?"Inhabilitado":"Habilitado")."</div></td>";
+        echo "<td colspan='2'>" . "<a class='fas fa-user-edit' href='index.php?pid=" . base64_encode("presentacion/administrador/editarFuncion.php") . "&idFuncion=" . $f->getId() . "' data-toggle='tooltip' data-placement='left' title='Editar Funcion'> </a>
+			                       <a id='cambiarEstado".$f->getId()."' href='#'><div id='iconoEstado".$f->getId()."'><i id='icono".$f->getId()."' class='fas fa-user-" . ($f->getEstado()==1?"times":"check") . "' data-toggle='tooltip' data-placement='left' title='" . ($f->getEstado()==1?"Deshabilitar":"Habilitar") . "'></i></div></a>
+			  </td>";
         echo "</tr>";
     
     }
@@ -50,3 +53,18 @@ include 'presentacion/menuAdministrador.php';
 		</div>
 	</div>
 </div>
+<script>
+$(document).ready(function(){
+<?php 
+foreach ($funciones as $f) {
+    echo "$(\"#cambiarEstado".$f->getId()."\").click(function(){\n";
+    echo "var ruta = \"indexAjax.php?pid=" . base64_encode("presentacion/administrador/cambiarEstadoMensajeroAjax.php") ."&idFuncion=".$f->getId()."\";\n";
+    echo "$(\"#estado".$f->getId()."\").load(ruta);\n";
+    echo "$(\"#icono".$f->getId()."\").tooltip('hide');\n";
+    echo "ruta1 = \"indexAjax.php?pid=" . base64_encode("presentacion/administrador/cambiarIconoEstadoMensajeroAjax.php") ."&idFuncion=".$f->getId()."\";\n";
+    echo "$(\"#iconoEstado".$f->getId()."\").load(ruta1);\n";
+    echo "});\n";
+}
+?>
+});
+</script>

@@ -11,6 +11,7 @@ class funcion{
     private $horario;
     private $sillas;
     private $precio;
+    private $estado;
     private $funcionDAO;
     private $conexion;
     
@@ -39,8 +40,11 @@ class funcion{
     function getPrecio(){
         return $this -> precio;
     }
+    function getEstado(){
+        return $this -> estado;
+    }
         
-    function funcion($id="",$fechaInicio="",$fechaFin="",$pelicula="",$horario="",$sillas="",$precio=""){
+    function funcion($id="",$fechaInicio="",$fechaFin="",$pelicula="",$horario="",$sillas="", $precio="", $estado=""){
     $this -> id = $id;
     $this -> fechaInicio = $fechaInicio;
     $this -> fechaFin = $fechaFin;
@@ -48,8 +52,9 @@ class funcion{
     $this -> horario = $horario;
     $this -> sillas = $sillas;
     $this -> precio = $precio;
+    $this -> estado = $estado;
     $this -> conexion = new Conexion();
-    $this -> funcionDAO = new FuncionDAO($id, $fechaInicio, $fechaFin, $pelicula, $horario,$sillas,$precio);
+    $this -> funcionDAO = new FuncionDAO($id, $fechaInicio, $fechaFin, $pelicula, $horario, $sillas, $precio, $estado);
     }
     function consultarTodos(){
         $this -> conexion -> abrir();
@@ -62,7 +67,7 @@ class funcion{
             $horario= new Horario($registro[4]);
             $horario->consultar();
             echo $horario->consultar();            
-            $resultados[$i] = new funcion($registro[0], $registro[1], $registro[2], $pelicula, $horario,$registro[5],$registro[6]);
+            $resultados[$i] = new funcion($registro[0], $registro[1], $registro[2], $pelicula, $horario, $registro[5], $registro[6], $registro[7]);
             $i++;
         }
         $this -> conexion -> cerrar();
@@ -80,7 +85,24 @@ class funcion{
             $horario= new Horario($registro[4]);
             $horario->consultar();
             echo $horario->consultar();            
-            $resultados[$i] = new funcion($registro[0], $registro[1], $registro[2], $pelicula, $horario,$registro[5],$registro[6]);
+            $resultados[$i] = new funcion($registro[0], $registro[1], $registro[2], $pelicula, $horario, $registro[5], $registro[6], $registro[7]);
+            $i++;
+        }
+        $this -> conexion -> cerrar();
+        return $resultados;
+    }
+    function consultarPeliculah(){
+        $this -> conexion -> abrir();
+        $this -> conexion -> ejecutar($this -> funcionDAO -> consultarPeliculah());
+        $resultados = array();
+        $i=0;
+        while(($registro = $this -> conexion -> extraer()) != null){
+            $pelicula= new Pelicula($registro[3]);
+            $pelicula->consultar();
+            $horario= new Horario($registro[4]);
+            $horario->consultar();
+            echo $horario->consultar();            
+            $resultados[$i] = new funcion($registro[0], $registro[1], $registro[2], $pelicula, $horario, $registro[5], $registro[6], $registro[7]);
             $i++;
         }
         $this -> conexion -> cerrar();
@@ -95,7 +117,7 @@ class funcion{
         while(($registro = $this -> conexion -> extraer()) != null){
             $pelicula= new Pelicula($registro[3]);
             $pelicula->consultar();
-            $resultados[$i] = new funcion($registro[0], $registro[1], $registro[2], $pelicula, $registro[4], $registro[5],$registro[6]);
+            $resultados[$i] = new funcion($registro[0], $registro[1], $registro[2], $pelicula, $registro[4], $registro[5],$registro[6], $registro[7]);
             $i++;
         }
         $this -> conexion -> cerrar();
@@ -112,6 +134,7 @@ class funcion{
         $this -> horario = $registro[3];
         $this -> sillas = $registro[4];
         $this -> precio = $registro[5];
+        $this -> estado = $registro[6];
         $this -> conexion -> cerrar();
     }
     function insertar(){
@@ -127,6 +150,11 @@ class funcion{
     function actualizarCantidad(){
         $this -> conexion -> abrir();
         $this -> conexion -> ejecutar($this -> funcionDAO ->actualizarCantidad());
+        $this -> conexion -> cerrar();
+    }
+    function cambiarEstado(){
+        $this -> conexion -> abrir();
+        $this -> conexion -> ejecutar($this -> funcionDAO ->cambiarEstado());
         $this -> conexion -> cerrar();
     }
 }

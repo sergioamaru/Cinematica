@@ -25,6 +25,12 @@ class UsuarioDAO {
                 from usuario
                 where idusuario = '" . $this -> id . "'";
     }
+    function consultarClave(){
+        return "select idusuario, nombre, apellido, correo,clave 
+                from usuario
+                where nombre = '" . $this -> nombre . "' AND
+                correo = '" . $this -> correo . "'";
+    }
 
     function insertar(){
         return "insert into usuario

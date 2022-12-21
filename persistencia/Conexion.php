@@ -4,7 +4,7 @@ class Conexion {
     private $resultado;
     public function abrir(){
         //$this -> mysqli = new mysqli(servidor, usuario, contrase�a, bd, puerto);
-        $this -> mysqli = new mysqli("containers-us-west-180.railway.app", "root", "06APK0UMrnpMywlgW6Xs", "railway","7037");
+        $this -> mysqli = new mysqli("localhost", "root", "", "cinematica");
         $this -> mysqli -> set_charset("utf8");
     }
     public function ultimoId(){

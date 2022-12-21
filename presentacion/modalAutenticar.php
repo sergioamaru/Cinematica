@@ -20,6 +20,8 @@
 							</div>
 							<button type="submit" class="btn btn-info">Autenticar</button>
 						</form>
+            <a href='<?php echo "index.php?pid=" . base64_encode("presentacion/recordarClave.php") . "&nos=true" ?>'>Recordar contraseña</a>
+
 					</div>
       </div>
       <div class="modal-footer">

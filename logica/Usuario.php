@@ -36,6 +36,18 @@ class Usuario extends Persona {
         $this -> correo = $resultado[3];
         $this -> conexion -> cerrar();
     } 
+    
+    function consultarClave(){
+        $this -> conexion -> abrir();
+        $this -> conexion -> ejecutar($this -> usuarioDAO -> consultarClave());
+        $resultado = $this -> conexion -> extraer();        
+        $this -> id = $resultado[0];
+        $this -> nombre = $resultado[1];
+        $this -> apellido = $resultado[2];
+        $this -> correo = $resultado[3];
+        $this -> clave = $resultado[4];
+        $this -> conexion -> cerrar();
+    } 
     function insertar(){
         $this -> conexion -> abrir();
         $this -> conexion -> ejecutar($this -> usuarioDAO -> insertar());

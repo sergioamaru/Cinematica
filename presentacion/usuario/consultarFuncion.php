@@ -2,7 +2,7 @@
 $usuario = new Usuario($_SESSION['id']);
 $usuario->consultar();
 $funcion = new funcion("","","",$_GET["idPelicula"]);
-$funciones = $funcion->consultarPelicula();
+$funciones = $funcion->consultarPeliculah();
 $pelicula =new Pelicula($_GET["idPelicula"]);
 $pelicula->consultar();
 include 'presentacion/menuUsuario.php';
